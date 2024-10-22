@@ -83,54 +83,44 @@ cv2.destroyAllWindows()
 input = img
 m = 3
 n = 3
+
 avg = np.array([
     [1/9, 1/9, 1/9],
     [1/9, 1/9, 1/9],
     [1/9, 1/9, 1/9]
     ])
+
 sobel = np.array([
-    [1/9, 0 , -1/9],
-    [1/9, 0 , -1/9],
-    [1/9, 0 , -1/9]
-    ])
+    [-1,  0,  1],
+    [-2,  0,  2],
+    [-1,  0,  1]
+])
+
 gaussian = np.array([
     [1/16, 2/16, 1/16],
     [2/16, 4/16, 2/16],
     [1/16, 2/16, 1/16]
-    ])
+])
 bias = 0
 
-for padding in range(-1,2):
+for padding in range(-1, 2):
     input = img
-    output = conv(input,m,n,avg,bias,padding)
-    cv2.imshow('avg', output)  
+    output = conv(input, m, n, avg, bias, padding)
+    cv2.imshow('Average Filter with Padding {}'.format(padding), output)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
-    cv2.imshow('image', img)
+    output = conv(input, m, n, sobel, bias, padding)
+    cv2.imshow('Sobel Filter with Padding {}'.format(padding), output)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
-
-    output = conv(input,m,n,sobel,bias,padding)
-    cv2.imshow('sobel', output)
+    output = conv(input, m, n, gaussian, bias, padding)
+    cv2.imshow('Gaussian Filter with Padding {}'.format(padding), output)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
-    cv2.imshow('image', img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-
-    output = conv(input,m,n,gaussian,bias,padding)
-    cv2.imshow('gaussian', output)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-
-    cv2.imshow('image', img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-    
-    print('padding = ', padding)
+    print('Padding = ', padding)
 
 
 output = maxpooling(input)
